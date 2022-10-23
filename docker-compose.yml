@@ -1,0 +1,18 @@
+version: '3'
+services:
+  api:
+    build: ./docker/rust
+  postgres:
+    restart: always
+    build: ./docker/postgres
+    volumes:
+      - ./docker/postgres/data:/var/lib/postgresql/data
+    environment:
+      - LANG=ja_JP.UTF-8
+      - LANGUAGE=ja_JP:ja
+      - LC_ALL=ja_JP.UTF-8
+      - TZ=Asia/Tokyo
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST_AUTH_METHOD=${POSTGRES_HOST_AUTH_METHOD} 
