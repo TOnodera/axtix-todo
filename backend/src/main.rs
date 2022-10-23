@@ -2,6 +2,7 @@ use actix_web::{App, HttpServer};
 use tokio;
 
 mod config;
+mod error;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
