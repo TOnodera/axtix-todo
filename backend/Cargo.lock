@@ -233,6 +233,7 @@ name = "backend"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "derive_more",
  "tokio",
 ]
 
