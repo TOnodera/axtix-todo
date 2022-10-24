@@ -19,7 +19,9 @@ impl error::ResponseError for UserError {
     }
     fn status_code(&self) -> StatusCode {
         match *self {
-            UserError::ValidationError { .. } => StatusCode::BAD_REQUEST,
+            UserError::ValidationError { .. } => {
+                StatusCode::BAD_REQUEST
+            }
         }
     }
 }
