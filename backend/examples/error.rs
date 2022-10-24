@@ -37,12 +37,19 @@ fn print(result: Result<i32>) {
     }
 }
 
-fn main() {
+async fn async_fn(vec: Vec<&str>) {
+    print(double_first(vec));
+}
+
+#[tokio::main]
+async fn main() {
     let numbers = vec!["42", "93", "18"];
     let empty = vec![];
     let strings = vec!["tofu", "93", "18"];
 
-    print(double_first(numbers));
-    print(double_first(empty));
-    print(double_first(strings));
+    tokio::join!(
+        async_fn(numbers),
+        async_fn(empty),
+        async_fn(strings)
+    );
 }
