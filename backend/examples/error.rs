@@ -1,7 +1,8 @@
 use std::error;
 use std::fmt;
+use tokio;
 
-type Result<T> = std::result::Result<T, Box<dyn error::Error>>;
+pub type Result<T> = std::result::Result<T, Box<dyn error::Error>>;
 
 #[derive(Debug, Clone)]
 struct DoubleError;
@@ -37,19 +38,27 @@ fn print(result: Result<i32>) {
     }
 }
 
-async fn async_fn(vec: Vec<&str>) {
-    print(double_first(vec));
-}
-
 #[tokio::main]
 async fn main() {
     let numbers = vec!["42", "93", "18"];
     let empty = vec![];
     let strings = vec!["tofu", "93", "18"];
 
-    tokio::join!(
-        async_fn(numbers),
-        async_fn(empty),
-        async_fn(strings)
-    );
+    // ↓ここが解せない😥😥😥
+
+    tokio::spawn(async {
+        println!("{:?}", numbers);
+        print(double_first(numbers));
+    })
+    .await;
+
+    tokio::spawn(async {
+        print(double_first(empty));
+    })
+    .await;
+
+    tokio::spawn(async {
+        print(double_first(strings));
+    })
+    .await;
 }
