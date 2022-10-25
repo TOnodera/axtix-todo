@@ -7,3 +7,8 @@ pub struct TodoRequest {
     pub content: String,
     pub done: bool,
 }
+
+#[derive(Deserialize)]
+pub struct TodoQuery {
+    pub id: u32,
+}
