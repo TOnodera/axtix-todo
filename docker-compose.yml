@@ -2,6 +2,8 @@ version: '3'
 services:
   api:
     build: ./docker/rust
+    volumes:
+      - ./backend:/workspace
   postgres:
     restart: always
     build: ./docker/postgres
