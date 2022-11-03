@@ -3,12 +3,14 @@ services:
   api:
     build: ./docker/rust
     volumes:
-      - ./backend:/workspace
+      - ./:/workspace
   postgres:
     restart: always
     build: ./docker/postgres
     volumes:
       - ./docker/postgres/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
     environment:
       - LANG=ja_JP.UTF-8
       - LANGUAGE=ja_JP:ja
