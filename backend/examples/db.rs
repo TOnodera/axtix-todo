@@ -1,13 +1,16 @@
 use chrono::NaiveTime;
 use dotenvy;
-use sqlx::postgres::PgPool;
+use sqlx::{postgres::PgPoolOptions, PgPool};
 use std::env;
 
 #[tokio::main]
 async fn main() -> Result<(), sqlx::Error> {
     dotenvy::dotenv().ok();
     let url = env::var("DATABASE_URL").unwrap();
-    let pool = PgPool::connect(&url).await?;
+    let pool = PgPoolOptions::new()
+        .max_connections(10)
+        .connect(&url)
+        .await?;
 
     // 接続確認
     let row: (i64,) = sqlx::query_as("SELECT $1")
