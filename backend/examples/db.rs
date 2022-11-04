@@ -20,11 +20,13 @@ async fn main() -> Result<(), sqlx::Error> {
     assert_eq!(row.0, 150);
 
     // データ登録確認
-    let new_todo = NewTodo {
+    let new_todo = Todo {
         id: 1,
         title: "test_title".to_string(),
-        content: "test_content".to_string(),
+        content: Some("test_content".to_string()),
         done: false,
+        created_at: None,
+        updated_at: None,
     };
     let id = add_todo(&pool, new_todo).await;
     assert_eq!(id, 1);
@@ -37,13 +39,17 @@ async fn main() -> Result<(), sqlx::Error> {
         Some(mut todo) => {
             // データ更新確認
             todo.title = "updated title".to_string();
-            todo.content = "updated content".to_string();
+            todo.content = Some("updated content".to_string());
             assert_eq!(update_todo(&pool, &todo).await, true);
 
-            let updated_todo = get_todo(&pool, 1).await.unwrap();
-            assert_eq!("updated title", updated_todo.title);
-            assert_eq!("updated content", updated_todo.content);
+            let updated_todo = get_todo(&pool, 1).await;
             println!("{:?}", updated_todo);
+            let unwraped_updated_todo = updated_todo.unwrap();
+            assert_eq!("updated title", unwraped_updated_todo.title);
+            assert_eq!(
+                "updated content",
+                unwraped_updated_todo.content.unwrap()
+            );
 
             // データ削除確認
             assert_eq!(delete_todo(&pool, 1).await, true);
@@ -58,20 +64,14 @@ async fn main() -> Result<(), sqlx::Error> {
 struct Todo {
     id: i64,
     title: String,
-    content: String,
+    content: Option<String>,
     done: bool,
-    created_at: NaiveTime,
-    updated_at: NaiveTime,
-}
-struct NewTodo {
-    id: i64,
-    title: String,
-    content: String,
-    done: bool,
+    created_at: Option<NaiveTime>,
+    updated_at: Option<NaiveTime>,
 }
 
 // Todoリスト追加
-async fn add_todo(pool: &PgPool, todo: NewTodo) -> u64 {
+async fn add_todo(pool: &PgPool, todo: Todo) -> u64 {
     let rec = sqlx::query!(
         r#"
         INSERT INTO todos VALUES($1, $2, $3, $4)
@@ -100,10 +100,10 @@ async fn get_todo(pool: &PgPool, id: u64) -> Option<Todo> {
         Ok(row) => Some(Todo {
             id: row.id,
             title: row.title,
-            content: row.content.unwrap(),
+            content: Some(row.content.unwrap()),
             done: row.done,
-            created_at: row.created_at.time,
-            updated_at: row.updated_at.time,
+            created_at: Some(row.created_at.time),
+            updated_at: Some(row.updated_at.time),
         }),
         Err(_) => None,
     }
