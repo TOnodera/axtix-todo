@@ -1,14 +1,20 @@
 use serde::Deserialize;
 
 #[derive(Deserialize)]
-pub struct TodoRequest {
-    pub id: u32,
-    pub name: String,
+pub struct CreateTodoRequest {
+    pub title: String,
     pub content: String,
     pub done: bool,
 }
 
 #[derive(Deserialize)]
+pub struct UpdateTodoRequest {
+    pub id: i64,
+    pub title: String,
+    pub content: String,
+    pub done: bool,
+}
+#[derive(Deserialize)]
 pub struct TodoQuery {
-    pub id: u32,
+    pub id: i64,
 }

@@ -26,3 +26,17 @@ impl Display for ValidationError {
     }
 }
 impl error::Error for ValidationError {}
+
+#[derive(Debug)]
+pub struct DatabaseError {
+    pub message: String,
+}
+impl Display for DatabaseError {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
+        write!(f, "Database Error: {}", self.message)
+    }
+}
+impl error::Error for DatabaseError {}

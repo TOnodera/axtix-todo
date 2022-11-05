@@ -10,4 +10,6 @@ pub fn todos_route() -> Resource {
     web::resource("/todos")
         .route(web::get().to(todo::get))
         .route(web::post().to(todo::post))
+        .route(web::patch().to(todo::patch))
+        .route(web::delete().to(todo::delete))
 }

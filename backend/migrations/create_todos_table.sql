@@ -1,5 +1,5 @@
 -- Project Name : rust-todo
--- Date/Time    : 2022/11/04 23:49:33
+-- Date/Time    : 2022/11/06 0:40:14
 -- Author       : tonod
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -8,7 +8,7 @@
 drop table if exists todos cascade;
 
 create table todos (
-  id bigint not null
+  id bigserial not null
   , title varchar(255) not null
   , content text
   , done boolean not null
