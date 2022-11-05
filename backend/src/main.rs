@@ -2,7 +2,9 @@ use actix_web::{App, HttpServer};
 use tokio;
 
 mod config;
+mod domain;
 mod error;
+mod repository;
 mod request;
 mod response;
 mod routes;

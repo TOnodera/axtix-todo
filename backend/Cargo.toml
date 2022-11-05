@@ -13,3 +13,4 @@ serde = { version="1.0.147", features=["derive"] }
 sqlx = { version = "0.6", features = [ "chrono", "postgres", "runtime-tokio-rustls" ] }
 dotenvy = "0.15.6"
 chrono = "0.4.22"
+async-trait = "0.1.58"
