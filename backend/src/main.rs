@@ -5,10 +5,9 @@ use sqlx::postgres::PgPoolOptions;
 use tokio;
 
 mod config;
+mod domain;
 mod error;
 mod repository;
-mod request;
-mod response;
 mod routes;
 
 #[tokio::main]
@@ -27,7 +26,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .configure(config::config)
     })
-    .bind(config::consts::SERVER)?
+    .bind(domain::consts::SERVER)?
     .run()
     .await
 }

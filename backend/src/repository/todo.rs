@@ -1,9 +1,7 @@
 use sqlx::PgPool;
 
-use crate::config::types::Result;
-use crate::config::types::Todo;
-use crate::request::CreateTodoRequest;
-use crate::request::UpdateTodoRequest;
+use crate::domain::request::{CreateTodoRequest, UpdateTodoRequest};
+use crate::domain::types::{Result, Todo};
 
 pub struct TodoRepository<'a> {
     pub pool: &'a PgPool,

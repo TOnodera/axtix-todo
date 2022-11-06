@@ -1,10 +1,9 @@
-use crate::config::types::{self, Todo};
-use crate::repository::todo::TodoRepository;
-use crate::request::{
+use crate::domain::request::{
     CreateTodoRequest, TodoQuery, UpdateTodoRequest,
 };
-use crate::response::TodoResponse;
-use crate::{error, repository};
+use crate::domain::types::{self};
+use crate::error;
+use crate::repository::todo::TodoRepository;
 use actix_web::web;
 use actix_web::{HttpResponse, Responder};
 use sqlx::PgPool;
