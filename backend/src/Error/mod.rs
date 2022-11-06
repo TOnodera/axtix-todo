@@ -40,3 +40,17 @@ impl Display for DatabaseError {
     }
 }
 impl error::Error for DatabaseError {}
+
+#[derive(Debug)]
+pub struct EnvironmentError {
+    pub message: String,
+}
+impl Display for EnvironmentError {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
+        write!(f, "Database Error: {}", self.message)
+    }
+}
+impl error::Error for EnvironmentError {}

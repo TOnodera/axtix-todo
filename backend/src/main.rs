@@ -1,7 +1,5 @@
-use std::env;
-
 use actix_web::{web, App, HttpServer};
-use sqlx::postgres::PgPoolOptions;
+use repository::get_pool;
 use tokio;
 
 mod config;
@@ -11,15 +9,10 @@ mod repository;
 mod routes;
 
 #[tokio::main]
-async fn main() -> std::io::Result<()> {
+async fn main() -> Result<(), std::io::Error> {
     // DB接続プール
     dotenvy::dotenv().ok();
-    let url = env::var("DATABASE_URL").unwrap();
-    let pool = PgPoolOptions::new()
-        .max_connections(10)
-        .connect(&url)
-        .await
-        .unwrap();
+    let pool = get_pool().await?;
 
     HttpServer::new(move || {
         App::new()
